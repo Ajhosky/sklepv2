@@ -23,74 +23,85 @@ public class Main {
         blikCodes[3] = "444444";
         blikCodes[4] = "555555";
 
-        System.out.println("products ->");
-        System.out.println("--------------");
-        for (int i = 0; i < products[0].length; i++){
-            System.out.println(i+1 + ": " +products[0][i] + " " + products[1][i]);
+
+        int chance = (int) (Math.random()*100);
+        if (chance > 5){
+            System.out.println("products ->");
             System.out.println("--------------");
-        }
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Witam w naszym sklepie");
-        System.out.print("Ile produktów chcesz wybrać: "); int productCount = myObj.nextInt();
-        if (productCount > 0 ){
-            float cena = 0;
-            int[] cart = new int[productCount];
-            System.out.println("Wypisz id przedmiotow, ktore chcesz kupić");
-            for (int i = 0; i < productCount; i++){
-                System.out.print(i+1 + ": "); cart[i] = myObj.nextInt() - 1;
-                cena+= Float.parseFloat(products[1][i]);
+            for (int i = 0; i < products[0].length; i++){
+                System.out.println(i+1 + ": " +products[0][i] + " " + products[1][i]);
+                System.out.println("--------------");
             }
-            System.out.println("Do zapłaty " + cena + " zł");
-            System.out.println(":::::::::::::::::");
-            System.out.println("Wybierz formę płatności");
-            System.out.print("1 -> gotowka ||"); System.out.print(" 2 -> karta ||"); System.out.print(" 3 -> BLIK: "); int formaPlatnosci = myObj.nextInt();
+            Scanner myObj = new Scanner(System.in);
+            System.out.println("Witam w naszym sklepie");
+            System.out.print("Ile produktów chcesz wybrać: "); int productCount = myObj.nextInt();
+            if (productCount > 0 ){
+                float cena = 0;
+                int[] cart = new int[productCount];
+                System.out.println("Wypisz id przedmiotow, ktore chcesz kupić");
+                for (int i = 0; i < productCount; i++){
+                    System.out.print(i+1 + ": "); cart[i] = myObj.nextInt() - 1;
+                    cena+= Float.parseFloat(products[1][cart[i]]);
+                }
+                System.out.println("Do zapłaty " + cena + " zł");
+                System.out.println(":::::::::::::::::");
+                System.out.println("Wybierz formę płatności");
+                System.out.print("1 -> gotowka ||"); System.out.print(" 2 -> karta ||"); System.out.print(" 3 -> BLIK: "); int formaPlatnosci = myObj.nextInt();
 
-            switch (formaPlatnosci){
-                case 1:
-                    System.out.print("Wpisz ile dałeś kasierowi: "); float gotowka = myObj.nextFloat();
-                    float reszta = gotowka - cena;
-                    if (gotowka > cena) {
-                    System.out.println("Twoja reszta " + reszta);
-                    System.out.println("Miłego dnia!");
-                }else if(gotowka == cena){
-
-                }else {
-                        do {
-                            System.out.println("Niestety to nie wystarczy, musisz dopłacić");
-                            System.out.print("Wpisz ile dałeś kasierowi: "); float doplata = myObj.nextFloat();
-                            gotowka += doplata;
-                        }while (gotowka >= cena);
-                        System.out.println("Miłego dnia!");
-                    }
-                    break;
-                case 2:
-                    System.out.print("Podaj numer karty: "); String cardNumber = myObj.nextLine();
-                    for (int i = 0; i < cards[0].length; i++){
-                        if (cards[0][i] == cardNumber){
-                            System.out.print("Podaj PIN: "); String pin = myObj.nextLine();
-                            for (int j = 0; j < cards[1].length; j++){
-                                if (cards[1][j] == pin){
-                                    System.out.println("Zaakceptowano kartę, miłego dnia! ");
-                                }else {
-                                    System.out.println("Error, twój pin jest niepoprawny");
-                                }
+                switch (formaPlatnosci){
+                    case 1:
+                        System.out.print("Wpisz ile dałeś kasierowi: "); float gotowka = myObj.nextFloat();
+                        float reszta = gotowka - cena;
+                        if (gotowka >= cena) {
+                            if (reszta != 0) {
+                                System.out.println("Twoja reszta " + reszta);
+                                System.out.println("Miłego dnia!");
+                            }else {
+                                System.out.println("Dziękuję");
+                                System.out.println("Miłego dnia!");
                             }
                         }else {
-                            System.out.println("ErrorError, twój numer karty jest niepoprawny");
+                            do {
+                                System.out.println("Niestety to nie wystarczy, musisz dopłacić");
+                                System.out.print("Wpisz ile dałeś kasierowi: "); float doplata = myObj.nextFloat();
+                                gotowka += doplata;
+                                System.out.println("Dałeś: " + gotowka + "zł jeszcze brakuje: " + (cena - gotowka)+ " zł");
+                            }while (gotowka < cena);
+                            System.out.println("Miłego dnia!");
                         }
-                    }
-                    break;
-                case 3:
-                    System.out.print("Podaj kod blik(6 cyfr): "); String blikCode = myObj.nextLine();
-                    for (int i = 0; i < blikCodes.length; i++){
-                        if (blikCodes[i] == blikCode){
-                            System.out.println("Dziękuję za zakupy, miłego dnia!");
-                        }else {
-                            System.out.println("Error, twój kod blik jest niepoprawny");
+                        break;
+                    case 2:
+                        System.out.print("Podaj numer karty: "); String cardNumber = myObj.nextLine();
+                        for (int i = 0; i < cards[0].length; i++){
+                            if (cards[0][i] == cardNumber){
+                                System.out.print("Podaj PIN: "); String pin = myObj.nextLine();
+                                for (int j = 0; j < cards[1].length; j++){
+                                    if (cards[1][j] == pin){
+                                        System.out.println("Zaakceptowano kartę, miłego dnia! ");
+                                    }else {
+                                        System.out.println("Error, twój pin jest niepoprawny");
+                                    }
+                                }
+                            }else {
+                                System.out.println("ErrorError, twój numer karty jest niepoprawny");
+                            }
                         }
-                    }break;
+                        break;
+                    case 3:
+                        System.out.print("Podaj kod blik(6 cyfr): "); String blikCode = myObj.nextLine();
+                        for (int i = 0; i < blikCodes.length; i++){
+                            if (blikCodes[i] == blikCode){
+                                System.out.println("Dziękuję za zakupy, miłego dnia!");
+                            }else {
+                                System.out.println("Error, twój kod blik jest niepoprawny");
+                            }
+                        }break;
                 }
 
             }
+        }else{
+            System.out.println("Niestety, ale nie ma zasilania w kasie, zapraszamy jutro");
+        }
+
         }
     }
