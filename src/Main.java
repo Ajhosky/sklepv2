@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Main {
@@ -34,47 +35,72 @@ public class Main {
             }
             Scanner myObj = new Scanner(System.in);
             System.out.println("Witam w naszym sklepie");
-            System.out.print("Ile produktów chcesz wybrać: "); int productCount = myObj.nextInt();
+            System.out.print("Ile produktów chcesz wybrać: "); int productCount = Integer.parseInt(myObj.nextLine());
             if (productCount > 0 ){
                 float cena = 0;
                 int[] cart = new int[productCount];
                 System.out.println("Wypisz id przedmiotow, ktore chcesz kupić");
                 for (int i = 0; i < productCount; i++){
-                    System.out.print(i+1 + ": "); cart[i] = myObj.nextInt() - 1;
+                    System.out.print(i+1 + ": "); cart[i] = Integer.parseInt(myObj.nextLine()) -1;
                     cena+= Float.parseFloat(products[1][cart[i]]);
                 }
                 System.out.println("Do zapłaty " + cena + " zł");
                 System.out.println(":::::::::::::::::");
                 System.out.println("Wybierz formę płatności");
-                System.out.print("1 -> gotowka ||"); System.out.print(" 2 -> karta ||"); System.out.print(" 3 -> BLIK: "); int formaPlatnosci = myObj.nextInt();
 
+               // do {
+                    System.out.print("1 -> gotowka ||"); System.out.print(" 2 -> karta ||"); System.out.print(" 3 -> BLIK: ");
+                int formaPlatnosci = Integer.parseInt(myObj.nextLine());
+               // }while (formaPlatnosci == 1 || formaPlatnosci == 2 || formaPlatnosci == 3);
                 switch (formaPlatnosci){
                     case 1:
-                        System.out.print("Wpisz ile dałeś kasierowi: "); float gotowka = myObj.nextFloat();
+                        System.out.print("Wpisz ile dałeś kasierowi: "); var banknoty = myObj.nextLine();
+                        String gotowkaSplit[] = banknoty.split(",");
+                        float gotowka = 0;
+                        for (int i = 0; i<gotowkaSplit.length; i++){
+                            gotowka += Float.parseFloat(gotowkaSplit[i]);
+                        }
                         float reszta = gotowka - cena;
                         if (gotowka >= cena) {
                             if (reszta != 0) {
                                 System.out.println("Twoja reszta " + reszta);
                                 System.out.println("Miłego dnia!");
-                            }else {
+                            }else{
                                 System.out.println("Dziękuję");
                                 System.out.println("Miłego dnia!");
                             }
                         }else {
                             do {
-                                System.out.println("Niestety to nie wystarczy, musisz dopłacić");
-                                System.out.print("Wpisz ile dałeś kasierowi: "); float doplata = myObj.nextFloat();
-                                gotowka += doplata;
-                                System.out.println("Dałeś: " + gotowka + "zł jeszcze brakuje: " + (cena - gotowka)+ " zł");
+                                DecimalFormat f = new DecimalFormat("##.00");
+                                //System.out.println("Niestety "+gotowka+" nie wystarczy, musisz dopłacić "+ f.format((cena - gotowka)));
+                                System.out.println("Niestety "+gotowka+" nie wystarczy, musisz dopłacić "+ Math.round(((cena - gotowka) * 100)) / 100.0);
+                                System.out.print("Wpisz jakie banknoty dałes (wypisz po przecinku): "); var doplata = myObj.nextLine();
+                                System.out.println("");
+                                String[] doplataSplit = doplata.split(",");
+                                for (int i = 0; i< doplataSplit.length; i++){
+                                    gotowka += Float.parseFloat(doplataSplit[i]);
+                                }
+                                if (reszta == 0){
+                                    System.out.println("Dałeś: " + gotowka + "zł");
+                                    System.out.println("");
+                                }else if (reszta < 0 ){
+                                    System.out.println("Dałeś: " + gotowka + "zł jeszcze brakuje: " + doplata + " zł");
+                                    System.out.println("");
+                                }else if (reszta > 0){
+                                    System.out.println("Dałeś: " + gotowka + "zł twoja reszta: " + reszta + " zł");
+                                    System.out.println("");
+                                }
+
                             }while (gotowka < cena);
                             System.out.println("Miłego dnia!");
                         }
                         break;
                     case 2:
-                        System.out.print("Podaj numer karty: "); String cardNumber = myObj.nextLine();
+                        System.out.print("Podaj numer karty: ");
+                        var cardNumber = myObj.nextLine();
                         for (int i = 0; i < cards[0].length; i++){
                             if (cards[0][i] == cardNumber){
-                                System.out.print("Podaj PIN: "); String pin = myObj.nextLine();
+                                System.out.print("Podaj PIN: "); var pin = myObj.nextLine();
                                 for (int j = 0; j < cards[1].length; j++){
                                     if (cards[1][j] == pin){
                                         System.out.println("Zaakceptowano kartę, miłego dnia! ");
@@ -88,7 +114,8 @@ public class Main {
                         }
                         break;
                     case 3:
-                        System.out.print("Podaj kod blik(6 cyfr): "); String blikCode = myObj.nextLine();
+                        System.out.print("Podaj kod blik(6 cyfr): ");
+                        var blikCode = myObj.nextLine();
                         for (int i = 0; i < blikCodes.length; i++){
                             if (blikCodes[i] == blikCode){
                                 System.out.println("Dziękuję za zakupy, miłego dnia!");
