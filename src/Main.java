@@ -47,20 +47,26 @@ public class Main {
                 System.out.println("Do zapłaty " + cena + " zł");
                 System.out.println(":::::::::::::::::");
                 System.out.println("Wybierz formę płatności");
-
-               // do {
+                int formaPlatnosci = 0;
+                do {
                     System.out.print("1 -> gotowka ||"); System.out.print(" 2 -> karta ||"); System.out.print(" 3 -> BLIK: ");
-                int formaPlatnosci = Integer.parseInt(myObj.nextLine());
-               // }while (formaPlatnosci == 1 || formaPlatnosci == 2 || formaPlatnosci == 3);
+                    try{
+                        formaPlatnosci = Integer.parseInt(myObj.nextLine());
+                    }catch (Exception e){
+                        System.out.println("Musisz podać cyfre!!!!");
+                    }
+                }while (formaPlatnosci != 1 && formaPlatnosci != 2 && formaPlatnosci != 3);
                 switch (formaPlatnosci){
                     case 1:
                         System.out.print("Wpisz ile dałeś kasierowi: "); var banknoty = myObj.nextLine();
                         String gotowkaSplit[] = banknoty.split(",");
                         float gotowka = 0;
+                        float reszta = 0;
+
                         for (int i = 0; i<gotowkaSplit.length; i++){
                             gotowka += Float.parseFloat(gotowkaSplit[i]);
                         }
-                        float reszta = gotowka - cena;
+                        reszta = gotowka - cena;
                         if (gotowka >= cena) {
                             if (reszta != 0) {
                                 System.out.println("Twoja reszta " + reszta);
@@ -73,21 +79,36 @@ public class Main {
                             do {
                                 DecimalFormat f = new DecimalFormat("##.00");
                                 //System.out.println("Niestety "+gotowka+" nie wystarczy, musisz dopłacić "+ f.format((cena - gotowka)));
-                                System.out.println("Niestety "+gotowka+" nie wystarczy, musisz dopłacić "+ Math.round(((cena - gotowka) * 100)) / 100.0);
-                                System.out.print("Wpisz jakie banknoty dałes (wypisz po przecinku): "); var doplata = myObj.nextLine();
-                                System.out.println("");
-                                String[] doplataSplit = doplata.split(",");
-                                for (int i = 0; i< doplataSplit.length; i++){
-                                    gotowka += Float.parseFloat(doplataSplit[i]);
+
+                                System.out.println("Niestety "+gotowka+" nie wystarczy, musisz dopłacić "+ Math.round((cena - gotowka) * 100) / 100.0);
+                                System.out.println("Jeżeli chcesz opuscic tranzakcje wypisz - 'x'");
+                                System.out.println("Jeżeli chcesz doplacic wpisz - 'z'");
+                                //System.out.println("Jezeli chcesz zmienic sposob planosci - 'c'");
+                                var odpowiedz = "";
+                                do{
+                                    System.out.print("-> ");odpowiedz = myObj.nextLine();
+                                }while (!odpowiedz.equals("x")  && !odpowiedz.equals("z"));
+
+                                if (odpowiedz.equals("x")){
+                                    break;
+                                }else if(odpowiedz.equals("z")) {
+                                    System.out.print("Wpisz jakie banknoty dałes (wypisz po przecinku): "); var doplata = myObj.nextLine();
+                                    System.out.println("");
+                                    String[] doplataSplit = doplata.split(",");
+                                    for (int i = 0; i< doplataSplit.length; i++){
+                                        gotowka += Float.parseFloat(doplataSplit[i]);
+                                    }
                                 }
+
+                                reszta *=-1;
                                 if (reszta == 0){
                                     System.out.println("Dałeś: " + gotowka + "zł");
                                     System.out.println("");
                                 }else if (reszta < 0 ){
-                                    System.out.println("Dałeś: " + gotowka + "zł jeszcze brakuje: " + doplata + " zł");
+                                    System.out.println("Dałeś: " + gotowka + "zł jeszcze brakuje: " + (Math.round(((cena - gotowka) * 100)) / 100.0) + " zł");
                                     System.out.println("");
                                 }else if (reszta > 0){
-                                    System.out.println("Dałeś: " + gotowka + "zł twoja reszta: " + reszta + " zł");
+                                    System.out.println("Dałeś: " + gotowka + "zł twoja reszta: " + Math.round(reszta*100.0)/100.0 + " zł");
                                     System.out.println("");
                                 }
 

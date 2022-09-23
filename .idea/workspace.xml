@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f06457da-d41e-4538-a6ab-6610dfeff6c2" name="Changes" comment=" first">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Card.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sklepv2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sklepv2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,6 +61,7 @@
       <workItem from="1663180509852" duration="3834000" />
       <workItem from="1663254897634" duration="849000" />
       <workItem from="1663308505652" duration="5188000" />
+      <workItem from="1663913127607" duration="5037000" />
     </task>
     <task id="LOCAL-00001" summary=" first">
       <created>1663184230079</created>
